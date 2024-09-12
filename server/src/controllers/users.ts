@@ -38,3 +38,32 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         return next(err as Error);
     }
 }
+
+
+export const login = async (req: Request, res: Response, next: NextFunction) => {
+
+    try {
+        const user = await UserModel.findOne({
+            email: req.body.email
+        }).select("+password");
+
+        const errors = { emailOrPassword: "Incorrect email or password" }
+        if (!user) {
+            return res.status(422).json(errors);
+        }
+        const isSamePossword = await user.validatePassword(req.body.password);
+        if (!isSamePossword) {
+            return res.status(422).json(errors);
+        }
+        res.send(normalizeUser(user));
+    } catch (err) {
+        console.error("Error registering user:", err);
+        if (err instanceof Error.ValidationError) {
+
+            console.error("Error registering user");
+            const messages = Object.values(err.errors).map(err => err.message);
+            return res.status(422).json(messages)
+        }
+        return next(err as Error);
+    }
+}

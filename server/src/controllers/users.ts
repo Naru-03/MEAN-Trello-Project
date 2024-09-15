@@ -72,4 +72,5 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 export const currentUser = (req: ExpressRequestInterface, res: Response) => {
     if (!req.user) return res.sendStatus(401)
     res.send(normalizeUser(req.user));
+    return;
 }

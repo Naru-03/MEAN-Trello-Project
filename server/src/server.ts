@@ -5,10 +5,12 @@ import mongoose from 'mongoose';
 import * as usersController from './controllers/users';
 import bodyParser from 'body-parser';
 import authMiddleware from './middleware/auth'
+import cors from 'cors';
 
 const app = express();
 const http = createServer(app);
 const io = new Server(http);
+app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

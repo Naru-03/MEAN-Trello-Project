@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { HttpClient, HttpErrorResponse, HttpHandler, HttpClientModule } from '@angular/common/http';
-import { join } from 'node:path';
+import { HttpErrorResponse, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registers',
@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
 export class RegisterComponent {
   protected form;
   error: string | null = null;
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.form = this.fb.group({
       email: ['', Validators.required],
       username: ['', Validators.required],
@@ -31,6 +31,8 @@ export class RegisterComponent {
         console.log('success', data);
         this.authService.setToken(data);
         this.authService.setCurrentUser(data);
+        this.error = null;
+        this.router.navigate(['/']);
       },
       error: (err: HttpErrorResponse) => {
         console.error('error', err.error);
@@ -38,5 +40,9 @@ export class RegisterComponent {
       }
     })
 
+  }
+
+  navigate() {
+    this.router.navigate(['/login']);
   }
 }

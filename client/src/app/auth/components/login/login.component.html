@@ -1,1 +1,15 @@
-<p>login works!</p>
+<div class="login-page">
+    <a routerLink="/"> <img src="trello-logo.svg" class="trello-main-logo" /></a>
+    <div class="form-container">
+        <div class="login-header">Login to Trello</div>
+        <div class="errors" *ngIf="error">{{error}}</div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <input formControlName="email" type="email" placeholder="Email" class="login-input" />
+            <input formControlName="password" type="password" placeholder="Password" class="login-input" />
+            <button type="submit" placeholder="Email" class="login-submit-button">Sign in</button>
+        </form>
+        <div class="bottom-form-links">
+            <a (click)="navigate()" class="register-link">Sign up for and account</a>
+        </div>
+    </div>
+</div>

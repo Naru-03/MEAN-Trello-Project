@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/services/auth.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { AuthIntercepter } from './auth/services/authintercepter.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, AuthModule, HttpClientModule],
+  providers: [{ provide: HTTP_INTERCEPTORS, useValue: AuthIntercepter, multi: true }],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -19,6 +21,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe((data) => {
       console.log('res' + data);
+      this.authService.setCurrentUser(data);
     }, (err) => {
       this.authService.setCurrentUser(null)
     })

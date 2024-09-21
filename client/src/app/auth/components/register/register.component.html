@@ -2,7 +2,7 @@
     <a routerLink="/"> <img src="trello-logo.svg" class="trello-main-logo" /></a>
     <div class="form-container">
         <div class="login-header">Register to Trello</div>
-        <div class="errors"></div>
+        <div class="errors" *ngIf="error">{{error}}</div>
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <input formControlName="email" type="email" placeholder="Email" class="login-input" />
             <input formControlName="username" type="text" placeholder="Username" class="login-input" />

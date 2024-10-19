@@ -4,12 +4,13 @@ import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/services/auth.service';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthIntercepter } from './auth/services/authintercepter.service';
+import { AuthGuardService } from './auth/services/authguard.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, AuthModule, HttpClientModule],
-  providers: [{ provide: HTTP_INTERCEPTORS, useValue: AuthIntercepter, multi: true }],
+  providers: [AuthGuardService, { provide: HTTP_INTERCEPTORS, useValue: AuthIntercepter, multi: true }],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -24,6 +25,10 @@ export class AppComponent implements OnInit {
       this.authService.setCurrentUser(data);
     }, (err) => {
       this.authService.setCurrentUser(null)
+    })
+
+    this.authService.isLogged$.subscribe((data) => {
+      console.log('user is logged in', data);
     })
   }
 }

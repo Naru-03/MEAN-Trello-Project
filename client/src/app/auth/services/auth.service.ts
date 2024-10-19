@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, filter, map, Observable } from "rxjs";
 import { CurrentUserInterface } from "../types/cureentUser.interface";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environment";
@@ -14,6 +14,8 @@ export class AuthService {
     constructor(private http: HttpClient) {
 
     }
+
+    isLogged$ = this.currentUser$.pipe(filter(currentUser => currentUser != undefined), map((currentUser) => Boolean(currentUser)))
 
     getCurrentUser(): Observable<CurrentUserInterface> {
         const url = environment.apiUrl + '/user';

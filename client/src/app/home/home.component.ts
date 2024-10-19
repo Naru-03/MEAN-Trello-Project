@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/services/auth.service';
 import { Subscription } from 'rxjs';
-import { AuthModule } from '../auth/auth.module';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthIntercepter } from '../auth/services/authintercepter.service';
 

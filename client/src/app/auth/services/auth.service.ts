@@ -6,14 +6,12 @@ import { environment } from "../../../environment";
 import { currentUser, register } from '../../../../../server/src/controllers/users';
 import { RegisterRequestInterface } from "../types/registerRequest.interface";
 import { LoginRequestInterface } from "../types/loginRequest.Interface";
+import { SocketService } from "../../shared/services/socket.service";
 
 @Injectable()
-
 export class AuthService {
     currentUser$ = new BehaviorSubject<CurrentUserInterface | null | undefined>(undefined);
-    constructor(private http: HttpClient) {
-
-    }
+    constructor(private http: HttpClient, private socketService: SocketService) { }
 
     isLogged$ = this.currentUser$.pipe(filter(currentUser => currentUser != undefined), map((currentUser) => Boolean(currentUser)))
 
@@ -39,5 +37,10 @@ export class AuthService {
 
     setCurrentUser(currentUser: CurrentUserInterface | null): void {
         this.currentUser$.next(currentUser);
+    }
+    logout(): void {
+        localStorage.removeItem('token');
+        this.currentUser$.next(null);
+        this.socketService.disconnect();
     }
 }

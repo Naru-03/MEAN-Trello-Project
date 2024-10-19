@@ -32,7 +32,7 @@ export class LoginComponent {
         this.authService.setToken(data);
         this.authService.setCurrentUser(data);
         this.error = null;
-        this.router.navigate(['/home']);
+        this.router.navigate(['/boards']);
       },
       error: (err: HttpErrorResponse) => {
         console.error('error', err.error);

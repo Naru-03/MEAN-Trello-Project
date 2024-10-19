@@ -3,11 +3,15 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/services/auth.service';
 import { Subscription } from 'rxjs';
+import { AuthModule } from '../auth/auth.module';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { AuthIntercepter } from '../auth/services/authintercepter.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HttpClientModule],
+  providers: [AuthService, { provide: HTTP_INTERCEPTORS, useValue: AuthIntercepter, multi: true }],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
